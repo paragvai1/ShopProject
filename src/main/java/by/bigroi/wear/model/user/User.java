@@ -1,38 +1,41 @@
 package by.bigroi.wear.model.user;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "USER")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_USER")
     private long id;
 
     @Column(name = "SURNAME", nullable = false)
-    @Pattern(regexp="^[\\pL '-]+$", message = "{user.surname.invalid}")
+    @Pattern(regexp="^[a-zA-Z]+$", message = "{user.surname.invalid}")
     private String surname;
 
     @Column(name = "NAME", nullable = false)
-    @Pattern(regexp="^[\\pL '-]+$", message = "{user.name.invalid}")
+    @Pattern(regexp="^[a-zA-Z]+$", message = "{user.name.invalid}")
     private String name;
 
     @Column(name = "EMAIL", nullable = false, unique = true)
+    @Email(message = "{user.email.invalid}")
     @Pattern(regexp="^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]+$", message = "{user.email.invalid}")
     private String email;
 
-    @Size(min = 5, max = 15)
+    @Size(min = 5, message = "{size.user.password}")
     @Column(name = "PASSWORD", nullable = false)
-    @Pattern(regexp="^[a-zA-Z0-9]+$", message = "{user.password.invalid}")
     private String password;
 
     @Column(name = "PHONE", nullable = false, unique = true)
+    @Size(min = 12, message = "{size.user.phone}")
     @Pattern(regexp="^\\+[0-9][0-9][0-9]?[\\s]*\\(?\\d{2}\\)?[-\\s]?\\d{3}[-\\s]?\\d{2}[-\\s]?\\d{2}$", message = "{user.phone.invalid}")
     private String phone;
 
@@ -42,10 +45,18 @@ public class User {
     @Column(name = "REG_DATE")
     @DateTimeFormat(pattern = "MM/dd/yy")
     private String regDate;
-/*
-    @ManyToOne
-    @JoinColumn(name = "ID_ROLE")
-    private UserRole role;*/
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "USER_USER_ROLE", joinColumns = {
+            @JoinColumn (name = "ID_USER")}, inverseJoinColumns = {
+            @JoinColumn (name = "ID_ROLE")})
+    private Set<UserRole> roles = new HashSet<>();
+
+    ////////////////  CONSTRUCTORS ///////////////////////////
+
+
+
+
 
     //////////////// GETTERS + SETTERS ///////////////////////////
 
@@ -105,57 +116,23 @@ public class User {
         this.address = address;
     }
 
-    public String getRegData() {
+    public String getRegDate() {
         return regDate;
     }
 
-    public void setRegData(String regData) {
-        this.regDate = regData;
-    }
-/*
-    public UserRole getRole() {
-        return role;
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public Set<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<UserRole> roles) {
+        this.roles = roles;
     }
 
     ///////////// EQUALS + HASHCODE + ToSTRING ///////////////////////
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        User user = (User) object;
-        return id == user.id &&
-                phone == user.phone &&
-                Objects.equals(surname, user.surname) &&
-                Objects.equals(name, user.name) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(address, user.address) &&
-                Objects.equals(regDate, user.regDate) &&
-                Objects.equals(role, user.role);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, surname, name, email, password, phone, address, regDate, role);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", surname='" + surname + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", phone=" + phone +
-                ", address='" + address + '\'' +
-                ", regData='" + regDate + '\'' +
-                ", role=" + role +
-                '}';
-    }*/
 }

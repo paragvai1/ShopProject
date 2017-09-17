@@ -14,9 +14,9 @@ public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServl
         return new Class[] { WebConfig.class };
     }
 
+
     @Override
-    protected String[] getServletMappings() {
-        return new String[] { "/" };
+    protected String[] getServletMappings() {return new String[] { "/" };
     }
 }
 
