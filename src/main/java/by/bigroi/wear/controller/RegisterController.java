@@ -1,14 +1,16 @@
 package by.bigroi.wear.controller;
 
 import by.bigroi.wear.model.user.User;
-import by.bigroi.wear.service.user.user.UserService;
+import by.bigroi.wear.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Locale;
 
 @Controller
 public class RegisterController {
