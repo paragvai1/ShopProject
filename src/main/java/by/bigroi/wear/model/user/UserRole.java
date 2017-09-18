@@ -1,6 +1,10 @@
 package by.bigroi.wear.model.user;
 
 import javax.persistence.*;
+import by.bigroi.wear.model.user.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "USER_ROLE")
@@ -14,10 +18,8 @@ public class UserRole {
     @Column(name = "VALUE", nullable = false, unique = true)
     private String value;
 
-    /*
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
-    private List<User> users = new ArrayList<>();
-
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+    List<User> users = new ArrayList<>();
 
     ///////////// GETTERS + SETTERS ////////////////////////////
 
@@ -47,27 +49,4 @@ public class UserRole {
 
     ///////////// EQUALS + HASHCODE + ToSTRING ///////////////////////
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        UserRole userRole = (UserRole) object;
-        return id == userRole.id &&
-                Objects.equals(value, userRole.value) &&
-                Objects.equals(users, userRole.users);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, value, users);
-    }
-
-    @Override
-    public String toString() {
-        return "UserRole{" +
-                "id=" + id +
-                ", value='" + value + '\'' +
-                ", users=" + users +
-                '}';
-    }*/
 }

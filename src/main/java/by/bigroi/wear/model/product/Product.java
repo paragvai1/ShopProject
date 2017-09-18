@@ -1,34 +1,57 @@
 package by.bigroi.wear.model.product;
 
-import by.bigroi.wear.model.catalog.WearCollection;
+import by.bigroi.wear.model.catalog.Catalog;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties
 @Table(name = "PRODUCT")
-
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_Product")
+    @Column(name = "ID_PRODUCT")
     private long id;
 
-    @Column (name = "NAME", nullable = false)
+    @Column(name = "NAME")
     private String name;
 
-    @Column (name = "DESCRIPTION", nullable = false)
+    @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column (name = "PICTURE", nullable = false)
-    private Object picture;
+    @Column(name = "LINK")
+    private String pictureLink;
 
-    @Column (name = "PRICE", nullable = false)
+    @Column(name = "PRICE")
     private double price;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_COLLECTION")
-    private WearCollection wearCollection;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_CATALOG")
+    private Catalog catalog;
+
+    @Column(name = "")
+    private String maker;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
+    private Set<ProductColor> colors = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
+    private Set<ProductSize> sizes = new HashSet<>();
+
+    //////////////// GETTERS + SETTERS ///////////////////////////
+
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -46,12 +69,12 @@ public class Product {
         this.description = description;
     }
 
-    public Object getPicture() {
-        return picture;
+    public String getPictureLink() {
+        return pictureLink;
     }
 
-    public void setPicture(Object picture) {
-        this.picture = picture;
+    public void setPictureLink(String pictureLink) {
+        this.pictureLink = pictureLink;
     }
 
     public double getPrice() {
@@ -62,11 +85,35 @@ public class Product {
         this.price = price;
     }
 
-    public WearCollection getWearCollection() {
-        return wearCollection;
+    public Catalog getCatalog() {
+        return catalog;
     }
 
-    public void setWearCollection(WearCollection wearCollection) {
-        this.wearCollection = wearCollection;
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
+    }
+
+    public String getMaker() {
+        return maker;
+    }
+
+    public void setMaker(String maker) {
+        this.maker = maker;
+    }
+
+    public Set<ProductColor> getColors() {
+        return colors;
+    }
+
+    public void setColors(Set<ProductColor> colors) {
+        this.colors = colors;
+    }
+
+    public Set<ProductSize> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(Set<ProductSize> sizes) {
+        this.sizes = sizes;
     }
 }

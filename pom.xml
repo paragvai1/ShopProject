@@ -10,21 +10,47 @@
 
   <properties>
     <failOnMissingWebXml>false</failOnMissingWebXml>
+    <spring.version>4.3.7.RELEASE</spring.version>
+    <spring.security.version>3.2.3.RELEASE</spring.security.version>
+    <hibernate.version>4.3.11.Final</hibernate.version>
+    <jackson.version>2.6.3</jackson.version>
   </properties>
+
   <dependencies>
     <!-- Spring MVC Dependency -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>4.3.7.RELEASE</version>
+      <version>${spring.version}</version>
     </dependency>
 
     <!-- Spring ORM -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-orm</artifactId>
-      <version>4.3.7.RELEASE</version>
+      <version>${spring.version}</version>
     </dependency>
+
+    <!-- Spring Security -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+
+    <!-- Spring Security JSP Taglib -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-taglibs</artifactId>
+      <version>${spring.security.version}</version>
+    </dependency>
+
 
     <!-- Mysql Connector -->
     <dependency>
@@ -94,12 +120,19 @@
       <version>0.9.0.RELEASE</version>
     </dependency>
 
-<!--    &lt;!&ndash; GenericDAO Dependency &ndash;&gt;
+    <!-- Jackson API -->
     <dependency>
-      <groupId>com.googlecode.genericdao</groupId>
-      <artifactId>dao</artifactId>
-      <version>1.2.0</version>
-    </dependency>-->
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
   </dependencies>
 
 

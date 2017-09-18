@@ -2,25 +2,23 @@ package by.bigroi.wear.config;
 
 import java.util.Properties;
 
+import by.bigroi.wear.config.security.SecurityConfig;
 import by.bigroi.wear.model.user.User;
+import by.bigroi.wear.model.user.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.persistence.criteria.CriteriaBuilder;
 
 import static org.hibernate.cfg.Environment.*;
 
 @Configuration
 @PropertySource("classpath:database.properties")
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"by.bigroi.wear.dao", "by.bigroi.wear.service"})
+@Import({ SecurityConfig.class })
+@ComponentScan(basePackages = {"by.bigroi.wear.*"})
 public class AppConfig {
 
     @Autowired
@@ -55,7 +53,7 @@ public class AppConfig {
                 env.getProperty("hibernate.c3p0.max_statements"));
 
         factoryBean.setHibernateProperties(props);
-        factoryBean.setAnnotatedClasses(User.class);
+        factoryBean.setAnnotatedClasses(User.class, UserRole.class);
         return factoryBean;
     }
 
